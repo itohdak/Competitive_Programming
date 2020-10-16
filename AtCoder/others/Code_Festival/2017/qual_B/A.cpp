@@ -1,0 +1,1 @@
+../../../asakatsu/2020-06-28/code_festival_2017_qualB_A.cpp

@@ -1,0 +1,1 @@
+../../../others/asakatsu/2020-06-27/ABC029_A.cpp
