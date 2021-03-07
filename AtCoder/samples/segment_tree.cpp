@@ -5,19 +5,21 @@ struct SegmentTree {
   using F = function< Monoid(Monoid, Monoid) >;
 
   int sz;
+  int _n;
   vector< Monoid > seg;
 
   const F f;
   const Monoid M1;
 
-  SegmentTree(int n, const F f, const Monoid &M1) : f(f), M1(M1) {
+  SegmentTree(int n, const F f, const Monoid &M1) : _n(n), f(f), M1(M1) {
     sz = 1;
     while(sz < n) sz <<= 1;
     seg.assign(2 * sz, M1);
   }
 
-  void set(int k, const Monoid &x) {
-    seg[k + sz] = x;
+  void set(int p, const Monoid &x) {
+    assert(0 <= p && p < _n);
+    seg[p + sz] = x;
   }
 
   void build() {
@@ -26,25 +28,28 @@ struct SegmentTree {
     }
   }
 
-  void update(int k, const Monoid &x) {
-    k += sz;
-    seg[k] = x;
-    while(k >>= 1) {
-      seg[k] = f(seg[2 * k + 0], seg[2 * k + 1]);
+  void update(int p, const Monoid &x) {
+    assert(0 <= p && p < _n);
+    p += sz;
+    seg[p] = x;
+    while(p >>= 1) {
+      seg[p] = f(seg[2 * p + 0], seg[2 * p + 1]);
     }
   }
 
-  Monoid query(int a, int b) {
+  Monoid query(int l, int r) {
+    assert(0 <= l && l <= r && r <= _n);
     Monoid L = M1, R = M1;
-    for(a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
-      if(a & 1) L = f(L, seg[a++]);
-      if(b & 1) R = f(seg[--b], R);
+    for(l += sz, r += sz; l < r; l >>= 1, r >>= 1) {
+      if(l & 1) L = f(L, seg[l++]);
+      if(r & 1) R = f(seg[--r], R);
     }
     return f(L, R);
   }
 
-  Monoid operator[](const int &k) const {
-    return seg[k + sz];
+  Monoid get(const int &p) const {
+    assert(0 <= p && p < _n);
+    return seg[p + sz];
   }
 };
 // SegmentTree<int> seg(n, [](int a, int b) { return min(a, b); }, INT_MAX);

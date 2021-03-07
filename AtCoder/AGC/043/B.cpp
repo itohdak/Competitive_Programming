@@ -1,40 +1,29 @@
 #include <bits/stdc++.h>
+#include <print.hpp>
 using namespace std;
+// #include <atcoder/all>
+// using namespace atcoder;
 #define ll long long
+#define ld long double
 #define REP(i,m,n) for(int i=(int)(m); i<(int)(n); i++)
 #define rep(i,n) REP(i,0,n)
 #define RREP(i,m,n) for(int i=(int)(m); i>=(int)(n); i--)
-#define rrep(i,n) RREP(i,n-1,0)
-#define REPL(i,m,n) for(ll i=(ll)(m); i<(ll)(n); i++)
-#define repl(i,n) REPL(i,0,n)
+#define rrep(i,n) RREP(i,(n)-1,0)
 #define all(v) v.begin(), v.end()
-// template<class t, class u>
-// ostream& operator<<(ostream& os, const pair<t, u>& p) {
-//   return os << "{" << p.first << ", " << p.second << "}";
-// }
-// template<class t> ostream& operator<<(ostream& os, const vector<t>& v) {
-//   os << "{";
-//   rep(i, v.size()) { if(i) os << ", "; os << v[i]; }
-//   return os << "}";
-// }
-// template<class t> ostream& operator<<(ostream& os, const set<t>& se) {
-//   os << "{";
-//   auto itr = se.begin();
-//   rep(i, se.size()) { if(i) os << ", "; os << *itr; itr++; }
-//   return os << "}";
-// }
-// template<class t, class u>
-// ostream& operator<<(ostream& os, const map<t, u>& mp) {
-//   os << "{";
-//   auto itr = mp.begin();
-//   rep(i, mp.size()) { if(i) os << ", "; os << *itr; itr++; }
-//   return os << "}";
-// }
+#define endk '\n'
 const int inf = 1e9+7;
 const ll longinf = 1LL<<60;
 const ll mod = 1e9+7;
+const ll mod2 = 998244353;
+const ld eps = 1e-10;
+template<typename T1, typename T2> inline void chmin(T1 &a, T2 b){if(a>b) a=b;}
+template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 
 int main() {
+  cin.tie(0);
+  ios::sync_with_stdio(false);
+  int n; cin >> n;
+  string s; cin >> s;
+  
   return 0;
 }
-

@@ -2,9 +2,9 @@
 
 vector<vector<int>> G;
 vector<int> Tpl;
+vector<bool> vis;
 
 /* topological sort */
-vector<bool> vis;
 void dfs(int cur) {
   if(vis[cur]) return;
   vis[cur] = true;

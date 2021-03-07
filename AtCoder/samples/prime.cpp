@@ -46,17 +46,17 @@ bool is_prime_desc(const unsigned n) {
 bool arr[1000000];
 vector<ll> primes;
 void Eratosthenes(int N) {
-  for(int i=0; i<N; i++) {
+  for(int i=0; i<=N; i++) {
     arr[i] = true;
   }
-  for(int i=2; i<N; i++) {
+  for(int i=2; i<=N; i++) {
     if(arr[i]) {
-      for(int j=0; i*(j+2)<N; j++) {
+      for(int j=0; i*(j+2)<=N; j++) {
         arr[i*(j+2)] = false;
       }
     }
   }
-  for(int i=2; i<N; i++) {
+  for(int i=2; i<=N; i++) {
     if(arr[i]) {
       primes.push_back(i);
     }
@@ -97,3 +97,36 @@ void find_divisor(ll N, vector<ll>& divisor) {
       divisor.push_back(N / divisor[i]);
   }
 }
+
+template<typename T>
+vector<T> smallest_prime_factors(T n) {
+  vector<T> spf(n + 1);
+  for(int i=0; i<=n; i++) spf[i] = i;
+  for(T i=2; i*i<=n; i++) {
+    // 素数だったら
+    if(spf[i] == i) {
+      for(T j=i*i; j<=n; j+=i) {
+        // iを持つ整数かつまだ素数が決まっていないなら
+        if(spf[j] == j) {
+          spf[j] = i;
+        }
+      }
+    }
+  }
+  return spf;
+}
+
+template<typename T>
+vector<T> factorization(T x, vector<T>& spf) {
+  vector<T> ret;
+  while(x != 1) {
+    ret.push_back(spf[x]);
+    x /= spf[x];
+  }
+  sort(ret.begin(), ret.end());
+  return ret;
+}
+
+// constexpr ll MAX = 1000000;
+// auto spf = smallest_prime_factors(MAX);
+// factorization(x, spf);
