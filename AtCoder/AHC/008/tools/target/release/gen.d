@@ -1,0 +1,1 @@
+/home/itohdak/Competitive_Programming/AtCoder/AHC/008/tools/target/release/gen: /home/itohdak/Competitive_Programming/AtCoder/AHC/008/tools/src/bin/gen.rs /home/itohdak/Competitive_Programming/AtCoder/AHC/008/tools/src/lib.rs

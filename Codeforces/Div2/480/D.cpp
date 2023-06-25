@@ -46,7 +46,6 @@ int main() {
   vector<ll> A(n); rep(i, n) cin >> A[i];
   vector<ll> P(n);
   rep(i, n) {
-    map<ll, int> mp;
     if(A[i] == 0) {
       P[i] = 0;
     } else {
@@ -63,17 +62,17 @@ int main() {
   // cout << P << endk;
   // cout << Pcomp << endk;
   int zero = lower_bound(all(Pcopy), 0) - begin(Pcopy);
-  if(Pcopy[zero] != 0) zero = -1;
+  if(zero == Pcopy.size() || Pcopy[zero] != 0) zero = -1;
   vector<int> ans(n+1);
   rep(i, n) {
-    map<ll, int> cnt;
+    vector<int> cnt(n);
+    int cnt_distinct = 0;
     REP(j, i, n) {
-      cnt[Pcomp[j]]++;
-      if(cnt.count(zero)) {
-        ans[max(1, (int)cnt.size()-2)]++;
-      } else {
-        ans[cnt.size()]++;
+      if(Pcomp[j] != zero) {
+        cnt[Pcomp[j]]++;
+        if(cnt[Pcomp[j]] == 1) cnt_distinct++;
       }
+      ans[max(1, cnt_distinct)]++;
     }
   }
   rep(i, n+1) if(i) cout << ans[i] << ' ';

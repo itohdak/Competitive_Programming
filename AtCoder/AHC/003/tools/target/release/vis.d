@@ -1,0 +1,1 @@
+/home/itohdak/Competitive_Programming/AtCoder/AHC/003/tools/target/release/vis: /home/itohdak/Competitive_Programming/AtCoder/AHC/003/tools/src/bin/vis.rs /home/itohdak/Competitive_Programming/AtCoder/AHC/003/tools/src/lib.rs

@@ -22,5 +22,42 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int n, m; cin >> n >> m;
+  vector<vector<int>> G(n);
+  rep(i, m) {
+    int a, b; cin >> a >> b;
+    a--; b--;
+    G[a].push_back(b);
+    G[b].push_back(a);
+  }
+  int rt = sqrt(m);
+  unordered_set<int> high;
+  rep(i, n) if((int)G[i].size() > rt) high.insert(i);
+  vector<vector<int>> G_high(n);
+  rep(i, n) {
+    for(int j: G[i]) {
+      if(high.count(j)) G_high[i].push_back(j);
+    }
+  }
+  vector<int> cnt_high(n), cnt_low(n), sum(n);
+  int q; cin >> q;
+  rep(_, q) {
+    int t, x;
+    cin >> t >> x;
+    x--;
+    if(t == 1) {
+      if(high.count(x)) {
+        cnt_high[x]++;
+      } else {
+        for(int to: G[x]) cnt_low[to]++;
+      }
+    } else {
+      int ans = 0;
+      ans += cnt_low[x];
+      for(int to: G_high[x]) ans += cnt_high[to];
+      cout << ans - sum[x] << endk;
+      sum[x] = ans;
+    }
+  }
   return 0;
 }

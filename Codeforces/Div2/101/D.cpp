@@ -19,51 +19,100 @@ const ld eps = 1e-10;
 template<typename T1, typename T2> inline void chmin(T1 &a, T2 b){if(a>b) a=b;}
 template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 
+struct edge {
+  int to;
+  ll cost;
+  edge(int t, ll c): to(t), cost(c) {};
+};
+
+using P = pair<ll, int>;
+
+vector<ll> dist;
+vector<int> par;
+void dijkstra(int n, vector<vector<edge>>& G, int s) {
+  priority_queue<P, vector<P>, greater<P>> q;
+  dist.assign(n, longinf);
+  par.assign(n, -1);
+  dist[s] = 0;
+  q.push({0, s});
+  while(q.size()) {
+    auto [d, cur] = q.top(); q.pop();
+    if(dist[cur] < d) continue;
+    for(auto [ne, cost]: G[cur]) {
+      if(dist[ne] > dist[cur] + cost) {
+        dist[ne] = dist[cur] + cost;
+        q.push({dist[ne], ne});
+        par[ne] = cur;
+      }
+    }
+  }
+}
+
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
   int n; ll l; cin >> n >> l;
-  vector<ll> X(n), D(n), T(n), P(n);
-  vector<tuple<ll, ll, ll, int>> V;
+  vector<tuple<ll, ll, ll, ll>> T(n);
+  vector<ll> V;
   rep(i, n) {
-    cin >> X[i] >> D[i] >> T[i] >> P[i];
-    V.push_back({X[i]-P[i], X[i]+D[i], T[i]+P[i], i});
+    ll x, d, t, p; cin >> x >> d >> t >> p;
+    T[i] = {x, d, t, p};
+    V.push_back(x-p);
+    V.push_back(x+d);
   }
+  V.push_back(0);
+  V.push_back(l);
   sort(all(V));
-  vector<ll> dp(n+1, longinf);
-  rep(i, n) dp[i] = get<0>(V[i]);
-  // cout << dp << endk;
-  vector<int> par(n+1, -1);
+  V.erase(unique(all(V)), end(V));
+  auto id = [&](ll v) {
+    auto itr = lower_bound(all(V), v);
+    assert(*itr == v);
+    return itr - begin(V);
+  };
+  int m = V.size();
+  vector<vector<edge>> G(m);
   rep(i, n) {
-    auto [begin, end, t, idx] = V[i];
-    if(begin < 0) continue;
-    if(dp[i+1] > dp[i]+(i+1==n ? l : get<0>(V[i+1]))-begin) {
-      chmin(dp[i+1], dp[i]+(i+1==n ? l : get<0>(V[i+1]))-begin); // do nothing
-      par[i+1] = i;
-    }
-    int j = lower_bound(all(V), make_tuple(end, end, end, 0)) - V.begin();
-    if(dp[j] > dp[i]+t+(j==n ? l : get<0>(V[j]))-end) {
-      chmin(dp[j], dp[i]+t+(j==n ? l : get<0>(V[j]))-end);
-      par[j] = i;
+    auto [x, d, t, p] = T[i];
+    int from = id(x-p), to = id(x+d);
+    G[from].push_back({to, p+t});
+  }
+  rep(i, m) {
+    if(i == 0) continue;
+    G[i-1].push_back({i, V[i]-V[i-1]});
+    if(V[i-1] >= 0) G[i].push_back({i-1, V[i]-V[i-1]});
+  }
+  int s = id(0), t = id(l);
+  dijkstra(m, G, s);
+  vector<int> path;
+  int tmp = t;
+  while(tmp != -1) {
+    path.push_back(tmp);
+    tmp = par[tmp];
+  }
+  reverse(all(path));
+  map<tuple<ll, ll, ll>, int> mp;
+  rep(i, n) {
+    auto [x, d, t, p] = T[i];
+    ll xfrom = x-p, xto = x+d;
+    ll tall = p+t;
+    mp[{xfrom, xto, tall}] = i;
+  }
+  vector<int> used;
+  rep(i, path.size()) {
+    if(i == 0) continue;
+    int from = path[i-1], to = path[i];
+    ll xfrom = V[from], xto = V[to];
+    ll tall = dist[to]-dist[from];
+    if(tall != abs(xto-xfrom)) {
+      assert(mp.count({xfrom, xto, tall}));
+      used.push_back(mp[{xfrom, xto, tall}]);
     }
   }
-  // rep(i, n) {
-  //   auto [begin, end, t, idx] = V[i];
-  //   cout << begin << ' ' << end << ' ' << t << endk;
-  // }
-  // cout << dp << endk;
-  cout << dp[n] << endk;
-  {
-    int tmp = n;
-    vector<int> ans;
-    do {
-      if(tmp != n) ans.push_back(get<3>(V[tmp]));
-      tmp = par[tmp];
-    } while(tmp != -1);
-    reverse(all(ans));
-    cout << ans.size() << endk;
-    for(int a: ans) cout << a+1 << ' ';
-    cout << endk;
+  cout << dist[t] << endk;
+  cout << used.size() << endk;
+  for(int u: used) {
+    cout << u+1 << ' ';
   }
+  cout << endk;
   return 0;
 }

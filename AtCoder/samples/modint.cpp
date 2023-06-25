@@ -51,4 +51,7 @@ public:
     }
     return *this;
   }
+  friend ostream& operator<<(ostream& os, const modint& m) {
+    return os << m.value();
+  }
 };

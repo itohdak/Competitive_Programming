@@ -67,8 +67,9 @@ void Eratosthenes(int N) {
 /*
   素因数分解
 */
-void prime_factorization(ll N, map<ll, int>& res) {
-  if(N == 1 || N == 0) return;
+map<ll, int> prime_factorization(ll N) {
+  map<ll, int> res;
+  if(N == 1 || N == 0) return res;
   ll n = N;
   ll i = 2;
   while(n >= i * i) {
@@ -81,12 +82,14 @@ void prime_factorization(ll N, map<ll, int>& res) {
     else i += 2;
   }
   if(n != 1) res[n]++;
+  return res;
 }
 
 /*
   約数
 */
-void find_divisor(ll N, vector<ll>& divisor) {
+vector<ll> find_divisor(ll N) {
+  vector<ll> divisor;
   for(int i=1; i<=sqrt(N); i++) {
     if(N % i == 0)
       divisor.push_back(i);
@@ -96,6 +99,7 @@ void find_divisor(ll N, vector<ll>& divisor) {
     if(N != (ll)pow(divisor[i], 2))
       divisor.push_back(N / divisor[i]);
   }
+  return divisor;
 }
 
 template<typename T>

@@ -30,17 +30,45 @@ int main() {
     G[u].push_back(v);
     G[v].push_back(u);
   }
-  vector<int> col(n);
-  vector<int> d(n);
-  auto dfs = [&](auto dfs, int cur, int par) -> void {
-    if(par != -1) {
-      col[cur] = 1-col[par];
-      d[cur] = d[par]+1;
-    }
-    for(int ne: G[cur]) {
-      if(ne != par) dfs(dfs, ne, cur);
+  vector<vector<ll>> dp(n, vector<ll>(4, n));
+  // 0: 置かれてない  塗られてない
+  // 1: 置かれてない  塗られてる
+  // 2: 置かれてる    塗られてない
+  // 3: 置かれてる    塗られてる
+  auto dfs = [&](auto dfs, int cur, int par, int depth) -> void {
+    bool isLeaf = (par != -1 && G[cur].size() == 1);
+    if(isLeaf) {
+      dp[cur][0] = 0;
+      if(depth <= 2) dp[cur][1] = 0;
+      dp[cur][3] = 1;
+    } else {
+      ll cnt0 = 0, cnt1 = 0, cnt3 = 0;
+      bool ok = false;
+      vector<int> memo;
+      for(int ne: G[cur]) {
+        if(ne == par) continue;
+        dfs(dfs, ne, cur, depth+1);
+        cnt0 += dp[ne][1];
+        int mn = *min_element(all(dp[ne]));
+        cnt3 += mn;
+        int less = min(dp[ne][1], dp[ne][3]);
+        cnt1 += less;
+        if(less == dp[ne][3]) {
+          ok = true;
+        } else {
+          assert(less == dp[ne][1]);
+          memo.push_back(dp[ne][3]-less);
+        }
+      }
+      chmin(dp[cur][0], cnt0);
+      sort(all(memo));
+      chmin(dp[cur][1], (ok ? cnt1 : cnt1 + memo[0]));
+      if(depth <= 2) chmin(dp[cur][1], cnt0);
+      chmin(dp[cur][3], cnt3+1);
     }
   };
-  dfs(dfs, 0, -1);
+  dfs(dfs, 0, -1, 0);
+  // rep(i, n) cout << dp[i] << endk;
+  cout << *min_element(all(dp[0])) << endk;
   return 0;
 }

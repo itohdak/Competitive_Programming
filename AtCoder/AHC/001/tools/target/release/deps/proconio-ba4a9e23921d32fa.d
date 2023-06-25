@@ -1,0 +1,12 @@
+/home/itohdak/Rust/tools/target/release/deps/proconio-ba4a9e23921d32fa.rmeta: /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/lib.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/marker.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/read.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/mod.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/line.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/once.rs
+
+/home/itohdak/Rust/tools/target/release/deps/libproconio-ba4a9e23921d32fa.rlib: /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/lib.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/marker.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/read.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/mod.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/line.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/once.rs
+
+/home/itohdak/Rust/tools/target/release/deps/proconio-ba4a9e23921d32fa.d: /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/lib.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/marker.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/read.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/mod.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/line.rs /home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/once.rs
+
+/home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/lib.rs:
+/home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/marker.rs:
+/home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/read.rs:
+/home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/mod.rs:
+/home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/line.rs:
+/home/itohdak/.cargo/registry/src/github.com-1ecc6299db9ec823/proconio-0.3.6/src/source/once.rs:

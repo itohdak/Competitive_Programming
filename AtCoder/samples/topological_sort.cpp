@@ -1,5 +1,20 @@
 #include "header.hpp"
 
+int main() {
+  int n; cin >> n;
+  vector<vector<int>> G(n);
+  vector<int> tpl;
+  vector<bool> vis(n);
+  auto dfs = [&](auto dfs, int cur) {
+    if(vis[cur]) return;
+    vis[cur] = true;
+    for(int ne: G[cur]) dfs(dfs, ne);
+    tpl.push_back(cur);
+  };
+  rep(i, n) dfs(dfs, i);
+  reverse(all(tpl));
+}
+
 vector<vector<int>> G;
 vector<int> Tpl;
 vector<bool> vis;

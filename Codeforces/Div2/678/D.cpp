@@ -19,36 +19,42 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 void solve() {
   int n; cin >> n;
   vector<vector<int>> G(n);
-  rep(i, n-1) {
+  rep(i, n) {
+    if(i == 0) continue;
     int p; cin >> p;
     p--;
-    G[p].push_back(i+1);
+    G[p].push_back(i);
   }
-  vector<ll> A(n); rep(i, n) cin >> A[i];
-  auto bsearch = [&]() {
-    auto test = [&](ll mid) {
-      bool ok = true;
-      auto dfs = [&](auto dfs, int cur) -> ll {
-        if(!ok) return 0;
-        ll cap = (G[cur].size() == 0 ? mid : 0);
-        for(int ne: G[cur]) {
-          cap += dfs(dfs, ne);
-          if(!ok) return 0;
-        }
-        if(A[cur] > cap) ok = false;
-        return cap - A[cur];
-      };
-      dfs(dfs, 0);
-      return ok;
-    };
-    ll ok = longinf, ng = -1;
-    while(ok - ng > 1) {
-      ll mid = (ok + ng) / 2;
-      (test(mid) ? ok : ng) = mid;
+  vector<ll> A(n);
+  rep(i, n) cin >> A[i];
+  vector<ll> mx(n), margin(n), nleaf(n);
+  auto dfs = [&](auto dfs, int cur, int par) -> void {
+    if(G[cur].size() == 0) nleaf[cur] = 1;
+    vector<int> children;
+    for(int ne: G[cur]) {
+      if(ne == par) continue;
+      dfs(dfs, ne, cur);
+      children.push_back(ne);
     }
-    return ok;
+    for(int ne: children) {
+      chmax(mx[cur], mx[ne]);
+    }
+    for(int ne: children) {
+      margin[cur] += margin[ne] + (mx[cur]-mx[ne])*nleaf[ne];
+      nleaf[cur] += nleaf[ne];
+    }
+    if(A[cur] <= margin[cur]) {
+      margin[cur] -= A[cur];
+    } else {
+      ll rem = A[cur] - margin[cur];
+      ll d = (rem+nleaf[cur]-1)/nleaf[cur];
+      margin[cur] += d*nleaf[cur];
+      mx[cur] += d;
+      margin[cur] -= A[cur];
+    }
   };
-  cout << bsearch() << endk;
+  dfs(dfs, 0, -1);
+  cout << mx[0] << endk;
 }
 int main() {
   cin.tie(0);

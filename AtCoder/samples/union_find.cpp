@@ -1,6 +1,6 @@
 #include "header.hpp"
 
-#define MAX_N 200005
+#define MAX_N 300005
 
 class UnionFind
 {

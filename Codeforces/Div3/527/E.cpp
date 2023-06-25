@@ -87,16 +87,23 @@ int main() {
   map<int, set<int>> mp;
   rep(i, n) mp[uf.root(i)].insert(i);
   vector<int> D;
+  vector<int> in, out;
+  int id = 0;
   auto dfs = [&](auto dfs, int cur, int par) -> void {
     D[cur] = (par==-1 ? 0 : D[par]+1);
+    in[cur] = id++;
     for(int ne: G[cur]) {
       if(ne != par) dfs(dfs, ne, cur);
     }
+    out[cur] = id++;
   };
   vector<pair<int, int>> v;
   int mx = 0;
   for(auto ele: mp) {
     D = vector<int>(n);
+    in = vector<int>(n);
+    out = vector<int>(n);
+    id = 0;
     dfs(dfs, *ele.second.begin(), -1);
     int mxi = -1;
     int mxd = -1;
@@ -106,6 +113,9 @@ int main() {
     }
     assert(mxi != -1);
     D = vector<int>(n);
+    in = vector<int>(n);
+    out = vector<int>(n);
+    id = 0;
     dfs(dfs, mxi, -1);
     mxi = -1;
     mxd = -1;
@@ -115,7 +125,7 @@ int main() {
     }
     assert(mxi != -1);
     int mid = -1;
-    rep(i, n) if(D[i] == mxd/2 && ele.second.count(i)) mid = i;
+    rep(i, n) if(D[i] == mxd/2 && in[i] <= in[mxi] && out[mxi] <= out[i] && ele.second.count(i)) mid = i;
     assert(mid != -1);
     v.push_back({mxd-mxd/2, mid});
     chmax(mx, mxd);

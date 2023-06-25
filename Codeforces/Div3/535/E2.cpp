@@ -247,40 +247,47 @@ void solve() {
   int n, m; cin >> n >> m;
   vector<ll> A(n); rep(i, n) cin >> A[i];
   vector<pair<int, int>> P(m);
-  rep(i, m) {
-    cin >> P[i].first >> P[i].second;
-    P[i].first--;
+  vector<tuple<int, int, int>> q;
+  {
+    int i = 0;
+    for(auto& [fi, se]: P) {
+      cin >> fi >> se;
+      fi--;
+      q.push_back({fi, se, i});
+      q.push_back({se, fi, i});
+      i++;
+    }
   }
+  sort(all(q));
   vector<S> s(n);
   rep(i, n) s[i].val = A[i];
   atcoder::lazy_segtree<S, op, e, F, mapping, composition, id> seg(s);
   int ans = -inf;
-  vector<int> ansv;
+  unordered_set<int> ans_st;
+  unordered_set<int> st;
+  int iq = 0;
   rep(i, n) {
-    vector<int> v;
-    ll mn = A[i];
-    rep(k, m) {
-      if(P[k].first <= i && i < P[k].second) {
-        mn--;
-        seg.apply(P[k].first, P[k].second, F{-1});
-        v.push_back(k);
+    while(iq < q.size() && get<0>(q[iq]) == i) {
+      auto [fi, se, idx] = q[iq];
+      if(se > fi) {
+        seg.apply(fi, se, F{-1});
+        st.insert(idx);
+      } else {
+        seg.apply(se, fi, F{1});
+        assert(st.count(idx));
+        st.erase(idx);
       }
+      iq++;
     }
-    S res = seg.all_prod();
-    assert(mn == seg.prod(i, i+1).val);
-    if(ans < res.val-mn) {
-      chmax(ans, res.val-mn);
-      ansv = v;
-    }
-    rep(k, m) {
-      if(P[k].first <= i && i < P[k].second) {
-        seg.apply(P[k].first, P[k].second, F{1});
-      }
+    int tmp = seg.all_prod().val - seg.prod(i, i+1).val;
+    if(ans < tmp) {
+      ans = tmp;
+      ans_st = st;
     }
   }
   cout << ans << endk;
-  cout << ansv.size() << endk;
-  for(int i: ansv) cout << i+1 << ' ';
+  cout << ans_st.size() << endk;
+  for(auto a: ans_st) cout << a+1 << ' ';
   cout << endk;
 }
 int main() {

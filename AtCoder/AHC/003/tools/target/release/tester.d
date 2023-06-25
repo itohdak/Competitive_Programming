@@ -1,0 +1,1 @@
+/home/itohdak/Competitive_Programming/AtCoder/AHC/003/tools/target/release/tester: /home/itohdak/Competitive_Programming/AtCoder/AHC/003/tools/src/bin/tester.rs /home/itohdak/Competitive_Programming/AtCoder/AHC/003/tools/src/lib.rs

@@ -1,5 +1,3 @@
-package com.template
-
 import java.io.PrintWriter
 import java.util.*
 

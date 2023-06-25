@@ -128,3 +128,18 @@ int bitcount32(unsigned long dw32) {
   dw32 = ((dw32 & 0xFFFF0000) >> 16) + (dw32 & 0x0000FFFF);
   return dw32;
 }
+
+
+// 配列Aの基底を取り出す（掃き出し法）
+vector<int> basis(vector<int>& A) {
+  vector<int> B;
+  for(auto a: A) {
+    for(auto b: B) {
+      chmin(a, a^b);
+    }
+    if(a) {
+      B.push_back(a);
+    }
+  }
+  return B;
+}

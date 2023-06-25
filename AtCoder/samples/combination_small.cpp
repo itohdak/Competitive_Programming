@@ -21,3 +21,43 @@ ll comb(ll n, ll r) {
 }
 
 // make()
+
+
+ll modinv(ll a, ll m=mod) {
+  ll b = m, u = 1, v = 0;
+  while(b) {
+    ll t = a / b;
+    a -= t * b; swap(a, b);
+    u -= t * v; swap(u, v);
+  }
+  u %= m;
+  if(u < 0) u += m;
+  return u;
+}
+/* 小さいmod (特にn>mod) に対する [nC0, nC1, ... , nCn] % mod を計算する */
+vector<int> make_comb_small(int n, int mod) {
+  vector<int> comb(n);
+  comb[0] = 1;
+  int denom = 1, numer = 1; // 分母、分子
+  int cnt = 0; // nCkがmodで何回割り切れるか
+  for(int k=1; k<n; k++) {
+    int tmp_n = n-k;
+    while(tmp_n % mod == 0) {
+      tmp_n /= mod;
+      cnt++;
+    }
+    int tmp_d = k;
+    while(tmp_d % mod == 0) {
+      tmp_d /= mod;
+      cnt--;
+    }
+    (numer *= tmp_n) %= mod;
+    (denom *= tmp_d) %= mod;
+    if(cnt) {
+      comb[k] = 0;
+    } else {
+      comb[k] = numer * modinv(denom, mod) % mod;
+    }
+  }
+  return comb;
+}

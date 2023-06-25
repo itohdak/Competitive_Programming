@@ -22,6 +22,29 @@ vector<T> bfs(int s, int n, vector<vector<pair<int, T>>>& G) {
   return dist;
 }
 
+void bfs_lambda() {
+  auto bfs = [&](int s, int n, vector<vector<pair<int, ll>>>& G) {
+    vector<ll> dist(n, longinf);
+    queue<pair<int, ll>> q;
+    q.push({s, 0});
+    dist[s] = 0;
+    vector<bool> vis(n);
+    while(!q.empty()) {
+      auto [cur, d] = q.front(); q.pop();
+      if(vis[cur]) continue;
+      if(dist[cur] < d) continue;
+      vis[cur] = true;
+      for(auto [ne, cost]: G[cur]) {
+        if(dist[ne] > dist[cur] + cost) {
+          dist[ne] = dist[cur] + cost;
+          q.push({ne, dist[ne]});
+        }
+      }
+    }
+    return dist;
+  };
+}
+
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);

@@ -50,29 +50,19 @@ int main() {
       }
     }
   }
-  vector<int> ans;
-  for(int i=120; i>=0; i--) rep(_, cnt[i]) ans.push_back(i);
   assert(tmp == accumulate(all(cnt), 0));
-  ll rem = k - tmp;
-  vector<int> v;
-  for(int i=60; i>=0; i--) {
-    if((rem>>i)&1) v.push_back(i);
-  }
-  cout << rem << endl;
-  cout << cnt << endl;
-  // cout << ans << endl;
-  cout << v << endl;
-  rep(i, v.size()) {
-    cnt[ans.back()]--;
-    cnt[ans.back()-v[i]-1] += 1<<(v[i]+1);
-    cout << ans.back() << endl;
+  vector<int> ans;
+  for(int i=120; i>=0; i--) rep(_, cnt[i]) ans.push_back(i-60);
+  while(tmp < k) {
+    int mn = ans.back();
     ans.pop_back();
+    ans.push_back(mn-1);
+    ans.push_back(mn-1);
+    tmp++;
   }
-  cout << cnt << endl;
-  cout << accumulate(all(cnt), 0) << endl;
   cout << "Yes" << endk;
-  assert(accumulate(all(cnt), 0) == k);
-  for(int i=120; i>=0; i--) rep(_, cnt[i]) cout << i-60 << ' ';
+  assert(tmp == k);
+  for(int a: ans) cout << a << ' ';
   cout << endk;
   return 0;
 }

@@ -19,6 +19,24 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 void solve() {
   int n; cin >> n;
   string s; cin >> s;
+  map<int, pair<int, int>> mp;
+  ll ans = 0, sum = 0;
+  vector<ll> cnt(n+1);
+  rep(i, n) {
+    if(s[i] == '0') {
+      ans += sum;
+    } else {
+      int l = i, r = i;
+      while(r < n && s[r] == '1') r++;
+      for(int j=l; j<r; j++) {
+        sum += j+1-cnt[j-l+1];
+        ans += sum;
+        cnt[j-l+1] = r-(j-l);
+      }
+      i = r-1;
+    }
+  }
+  cout << ans << endk;
 }
 int main() {
   cin.tie(0);

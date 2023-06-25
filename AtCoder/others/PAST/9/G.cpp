@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+#include <print.hpp>
+using namespace std;
+// #include <atcoder/all>
+// using namespace atcoder;
+#define ll long long
+#define ld long double
+#define REP(i,m,n) for(int i=(int)(m); i<(int)(n); i++)
+#define rep(i,n) REP(i,0,n)
+#define RREP(i,m,n) for(int i=(int)(m); i>=(int)(n); i--)
+#define rrep(i,n) RREP(i,(n)-1,0)
+#define all(v) v.begin(), v.end()
+#define endk '\n'
+const int inf = 1e9+7;
+const ll longinf = 1LL<<60;
+const ll mod = 1e9+7;
+const ll mod2 = 998244353;
+const ld eps = 1e-10;
+template<typename T1, typename T2> inline void chmin(T1 &a, T2 b){if(a>b) a=b;}
+template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
+
+int main() {
+  cin.tie(0);
+  ios::sync_with_stdio(false);
+  int n, q; cin >> n >> q;
+
+  auto bfs = [&](int s, int n, vector<set<int>>& G) {
+    vector<ll> dist(n, longinf);
+    queue<pair<int, ll>> q;
+    q.push({s, 0});
+    dist[s] = 0;
+    vector<bool> vis(n);
+    while(!q.empty()) {
+      auto [cur, d] = q.front(); q.pop();
+      if(vis[cur]) continue;
+      if(dist[cur] < d) continue;
+      vis[cur] = true;
+      for(auto ne: G[cur]) {
+        if(dist[ne] > dist[cur] + 1) {
+          dist[ne] = dist[cur] + 1;
+          q.push({ne, dist[ne]});
+        }
+      }
+    }
+    return dist;
+  };
+
+  vector<set<int>> G(n);
+  rep(i, q) {
+    int t, u, v; cin >> t >> u >> v;
+    u--; v--;
+    if(t == 1) {
+      if(G[u].count(v)) {
+        G[u].erase(v);
+        G[v].erase(u);
+      } else {
+        G[u].insert(v);
+        G[v].insert(u);
+      }
+    } else {
+      auto dist = bfs(u, n, G);
+      cout << (dist[v]==longinf ? "No" : "Yes") << endk;
+    }
+  }
+  return 0;
+}

@@ -22,20 +22,40 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 /* 転倒数 */
 template< typename T >
 struct BinaryIndexedTree {
-  vector< T > data;
+  using U =
+    typename std::conditional<std::is_same<T, long long>::value,
+                              unsigned long long,
+                              unsigned int>::type;
 
-  BinaryIndexedTree(int sz) {
+  BinaryIndexedTree(int sz) : _n(sz) {
     data.assign(++sz, 0);
   }
 
-  T sum(int k) {
-    T ret = 0;
-    for(++k; k > 0; k -= k & -k) ret += data[k];
-    return (ret);
+  T sum(int l, int r) {
+    assert(0 <= l && l <= r && r <= _n);
+    return sum(r) - sum(l);
   }
 
-  void add(int k, T x) {
-    for(++k; k < data.size(); k += k & -k) data[k] += x;
+  void add(int p, T x) {
+    assert(0 <= p && p < _n);
+    p++;
+    while(p <= _n) {
+      data[p - 1] += U(x);
+      p += p & -p;
+    }
+  }
+
+private:
+  vector< U > data;
+  int _n;
+
+  U sum(int r) {
+    U ret = 0;
+    while(r > 0) {
+      ret += data[r - 1];
+      r -= r & -r;
+    }
+    return ret;
   }
 };
 template< typename T >
@@ -47,9 +67,16 @@ ll inversion(const vector<T>& A) {
   });
   BinaryIndexedTree<int> bit(n);
   ll sum = 0;
-  for(int i: id) {
-    sum += bit.sum(i);
-    bit.add(i, 1);
+  // 要素の重複も考慮
+  int l = 0;
+  while(l < n) {
+    int r = l;
+    while(r < n && A[id[r]] == A[id[l]]) {
+      sum += bit.sum(0, id[r]);
+      r++;
+    }
+    for(int i=l; i<r; i++) bit.add(id[i], 1);
+    l = r;
   }
   return sum;
 };
