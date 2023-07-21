@@ -7,12 +7,15 @@ else
     echo -ne "
 function $func_name () {
     mkdir \$PWD/\$1
-    cp $PWD/templates/A.cpp \$PWD/\$1/A.cpp
-    cp $PWD/templates/A.cpp \$PWD/\$1/B.cpp
-    cp $PWD/templates/A.cpp \$PWD/\$1/C.cpp
-    cp $PWD/templates/A.cpp \$PWD/\$1/D.cpp
-    cp $PWD/templates/A.cpp \$PWD/\$1/E.cpp
-    cp $PWD/templates/A.cpp \$PWD/\$1/F.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/A.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/B.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/C.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/D.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/E.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/F.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/G.cpp
+    cp $PWD/templates/cpp_template.cpp \$PWD/\$1/H.cpp
+    cd \$PWD/\$1/
 }
 " >> ~/.bashrc
     echo "defined $func_name function in .bashrc"
