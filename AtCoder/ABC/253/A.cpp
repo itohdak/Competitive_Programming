@@ -22,5 +22,8 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int a, b, c; cin >> a >> b >> c;
+  if(min(a, c) <= b && b <= max(a, c)) cout << "Yes" << endk;
+  else cout << "No" << endk;
   return 0;
 }

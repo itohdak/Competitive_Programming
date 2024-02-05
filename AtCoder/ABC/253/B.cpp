@@ -22,5 +22,14 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int h, w; cin >> h >> w;
+  vector<string> S(h); rep(i, h) cin >> S[i];
+  vector<pair<int, int>> pos;
+  rep(i, h) rep(j, w) {
+    if(S[i][j] == 'o') pos.push_back({i, j});
+  }
+  auto [x1, y1] = pos[0];
+  auto [x2, y2] = pos[1];
+  cout << abs(x1-x2) + abs(y1-y2) << endk;
   return 0;
 }

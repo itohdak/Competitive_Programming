@@ -22,5 +22,12 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  ll n, a, b; cin >> n >> a >> b;
+  ll ans = n*(n+1)/2;
+  ans -= (n/a)*(n/a+1)/2*a;
+  ans -= (n/b)*(n/b+1)/2*b;
+  ll lcm = a*b/__gcd(a, b);
+  ans += (n/lcm)*(n/lcm+1)/2*lcm;
+  cout << ans << endk;
   return 0;
 }

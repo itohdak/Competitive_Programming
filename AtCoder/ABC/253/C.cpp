@@ -22,5 +22,24 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int q; cin >> q;
+  multiset<int> st;
+  rep(i, q) {
+    int t; cin >> t;
+    if(t == 1) {
+      int x; cin >> x;
+      st.insert(x);
+    } else if(t == 2) {
+      int x, c; cin >> x >> c;
+      rep(j, c) {
+        auto itr = st.lower_bound(x);
+        if(itr == st.end()) break;
+        if(*itr != x) break;
+        st.erase(itr);
+      }
+    } else {
+      cout << *(--st.end()) - *st.begin() << endk;
+    }
+  }
   return 0;
 }
