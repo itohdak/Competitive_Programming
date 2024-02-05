@@ -22,5 +22,37 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int n; cin >> n;
+  vector<ll> X(n), Y(n), P(n);
+  rep(i, n) {
+    cin >> X[i] >> Y[i] >> P[i];
+  }
+  auto bsearch = [&]() {
+    auto test = [&](ll m) -> bool {
+      bool ok = false;
+      rep(i, n) {
+        vector<bool> vis(n);
+        vis[i] = true;
+        auto dfs = [&](auto dfs, int cur) -> void {
+          vis[cur] = true;
+          rep(ne, n) {
+            if(P[cur] * m >= abs(X[cur]-X[ne]) + abs(Y[cur]-Y[ne])) {
+              if(!vis[ne]) dfs(dfs, ne);
+            }
+          }
+        };
+        dfs(dfs, i);
+        if(accumulate(all(vis), 0) == n) ok = true;
+      }
+      return ok;
+    };
+    ll ok = 5000000000, ng = 0;
+    while(ok-ng>1) {
+      ll mid = (ok+ng)/2;
+      (test(mid) ? ok : ng) = mid;
+    }
+    return ok;
+  };
+  cout << bsearch() << endk;
   return 0;
 }
