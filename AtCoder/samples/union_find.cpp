@@ -46,8 +46,9 @@ public:
       par[y] = x;
       nGroup[x] += nGroup[y];
       nGroup[y] = 0;
-      if(depth[x] == depth[y])
+      if(depth[x] == depth[y]) {
         depth[x]++;
+      }
     }
   }
 };
