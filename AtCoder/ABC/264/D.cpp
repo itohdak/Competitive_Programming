@@ -19,8 +19,77 @@ const ld eps = 1e-10;
 template<typename T1, typename T2> inline void chmin(T1 &a, T2 b){if(a>b) a=b;}
 template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 
+template< typename T >
+struct BinaryIndexedTree {
+  using U =
+    typename std::conditional<std::is_same<T, long long>::value,
+                              unsigned long long,
+                              unsigned int>::type;
+
+  BinaryIndexedTree(int sz) : _n(sz) {
+    data.assign(++sz, 0);
+  }
+
+  T sum(int l, int r) {
+    assert(0 <= l && l <= r && r <= _n);
+    return sum(r) - sum(l);
+  }
+
+  void add(int p, T x) {
+    assert(0 <= p && p < _n);
+    p++;
+    while(p <= _n) {
+      data[p - 1] += U(x);
+      p += p & -p;
+    }
+  }
+
+private:
+  vector< U > data;
+  int _n;
+
+  U sum(int r) {
+    U ret = 0;
+    while(r > 0) {
+      ret += data[r - 1];
+      r -= r & -r;
+    }
+    return ret;
+  }
+};
+template< typename T >
+ll inversion(const vector<T>& A) {
+  int n = A.size();
+  vector<int> id(n); rep(i, n) id[i] = i;
+  sort(all(id), [&](int i, int j) {
+    return A[i] > A[j];
+  });
+  BinaryIndexedTree<int> bit(n);
+  ll sum = 0;
+  // 要素の重複も考慮
+  int l = 0;
+  while(l < n) {
+    int r = l;
+    while(r < n && A[id[r]] == A[id[l]]) {
+      sum += bit.sum(0, id[r]);
+      r++;
+    }
+    for(int i=l; i<r; i++) bit.add(id[i], 1);
+    l = r;
+  }
+  return sum;
+};
+
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  string s; cin >> s;
+  map<char, int> mp;
+  string t = "atcoder";
+  rep(i, t.size()) mp[t[i]] = i;
+  vector<int> A(t.size());
+  rep(i, t.size()) A[i] = mp[s[i]];
+  ll sum = inversion(A);
+  cout << sum << endk;
   return 0;
 }

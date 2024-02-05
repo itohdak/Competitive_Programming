@@ -22,5 +22,9 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int r, c; cin >> r >> c;
+  r--; c--;
+  int mn = min({r, 14-r, c, 14-c});
+  cout << (mn&1 ? "white" : "black") << endk;
   return 0;
 }
