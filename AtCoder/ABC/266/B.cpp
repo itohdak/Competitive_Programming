@@ -22,5 +22,11 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  ll n; cin >> n;
+  if(n >= 0) {
+    cout << n-n/mod2*mod2 << endk;
+  } else {
+    cout << n-(n-mod2+1)/mod2*mod2 << endk;
+  }
   return 0;
 }

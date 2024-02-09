@@ -22,5 +22,28 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int n; cin >> n;
+  vector<int> T(n), X(n), A(n);
+  rep(i, n) {
+    cin >> T[i] >> X[i] >> A[i];
+  }
+  int mx = 101010;
+  vector<vector<ll>> dp(mx+1, vector<ll>(5, -longinf));
+  dp[0][0] = 0;
+  int l = 0;
+  rep(i, mx) {
+    while(l < n && i == T[l]) {
+      dp[T[l]][X[l]] += A[l];
+      l++;
+    }
+    rep(j, 5) {
+      for(int k=-1; k<=1; k++) {
+        if(j+k >= 0 && j+k < 5) {
+          chmax(dp[i+1][j+k], dp[i][j]);
+        }
+      }
+    }
+  }
+  cout << *max_element(all(dp[mx])) << endk;
   return 0;
 }

@@ -22,5 +22,17 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int n; cin >> n;
+  map<int, ld> mp;
+  auto f = [&](auto f, int m) -> ld {
+    if(m == 1) return 3.5;
+    if(mp.count(m)) return mp[m];
+    ld ret = 0;
+    for(int i=1; i<=6; i++) {
+      ret += max((ld)i, f(f, m-1))/6;
+    }
+    return mp[m] = ret;
+  };
+  cout << fixed << setprecision(10) << f(f, n) << endk;
   return 0;
 }

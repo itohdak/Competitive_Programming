@@ -22,5 +22,15 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  int n = 4;
+  vector<int> X(n), Y(n);
+  rep(i, n) cin >> X[i] >> Y[i];
+  bool ok = true;
+  rep(i, n) {
+    int x1 = X[(i+1)%n]-X[i], y1 = Y[(i+1)%n]-Y[i];
+    int x2 = X[(i+2)%n]-X[(i+1)%n], y2 = Y[(i+2)%n]-Y[(i+1)%n];
+    if(x1*y2-x2*y1 < 0) ok = false;
+  }
+  cout << (ok ? "Yes" : "No") << endk;
   return 0;
 }
