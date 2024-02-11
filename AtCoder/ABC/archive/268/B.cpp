@@ -22,5 +22,14 @@ template<typename T1, typename T2> inline void chmax(T1 &a, T2 b){if(a<b) a=b;}
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  string s, t; cin >> s >> t;
+  if(s.size() > t.size()) cout << "No" << endk;
+  else {
+    bool ok = true;
+    rep(i, s.size()) {
+      if(s[i] != t[i]) ok = false;
+    }
+    cout << (ok ? "Yes" : "No") << endk;
+  }
   return 0;
 }
