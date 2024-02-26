@@ -55,13 +55,13 @@ ll lcm(ll x, ll y) {
   不定方程式 a * x + b * y == gcd(a, b)
   の解を (x, y) に格納する
 */
-ll extGCD(ll a, ll b, ll &x, ll &y) {
+ll extgcd(ll a, ll b, ll &x, ll &y) {
   if(b == 0) {
     x = 1;
     y = 0;
     return a;
   }
-  ll d = extGCD(b, a%b, y, x);
+  ll d = extgcd(b, a%b, y, x);
   y -= a/b * x;
   return d;
 }
